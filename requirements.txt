@@ -1,0 +1,6 @@
+streamlit
+pandas
+tabulate
+langdetect
+python-dotenv
+google-generativeai
