@@ -57,8 +57,8 @@ This simple prototype was built to explore how user questions can guide data fil
 
 1. Clone the repo:
    ```bash
-   git clone https://github.com/your-username/basic-mikro-rag.git
-   cd basic-mikro-rag
+   git clone https://github.com/your-username/mikro-rag.git
+   cd mikro-rag
 
 2. Create a virtual environment:
 
@@ -78,6 +78,10 @@ This simple prototype was built to explore how user questions can guide data fil
 5. Run the app:
     ```bash
     streamlit run main_app.py
+
+    or
+    
+    python -m streamlit run main_app.py
 
 
 ## 📁 File Structure
