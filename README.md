@@ -1,107 +1,107 @@
-# Mikro-RAG-Personal Experiment 🎒🚌
+# Network Log Automation with RAG and LLMs
 
-This is a small, beginner-level prototype of a Retrieval-Augmented Generation (RAG)-style travel assistant built in Python using Gemini 1.5 Flash and Streamlit.
-
-> ⚠️ This project is not for commercial use. It was built only for learning and showcasing key skills in RAG-like querying, prompt design, and basic data filtering.
-
----
-
-## 🔍 What It Does
-
-You can ask travel-related questions like:
-
-- "Which trips take more than 10 hours?"
-- "En ucuz İstanbul'dan Ankara'ya giden sefer?"
-- "Van'a en sık sefer yapan firma?"
-
-The app will:
-1. Parse your question
-2. Filter the trip data (from a live Google Sheet)
-3. Ask Gemini for a short summary response
-4. Show a clean table with matching results
+A compact prototype designed to explore how **retrieval-based AI pipelines** can support real-time network monitoring.  
+Built around the idea of combining **semantic search** and **language model reasoning**, this project demonstrates the basic mechanisms behind intelligent automation systems.
 
 ---
 
-## 🚀 Tech Stack
-- Python
-- Pandas
-- Streamlit
-- Google Gemini API (1.5 Flash)
-- Regex-based NLP
-- Google Sheets (live data)
+## 1. Purpose and Context
 
-## 🧠 What This Project Shows
-This simple prototype was built to explore how user questions can guide data filtering and summarization using LLMs. It demonstrates:
+This project was developed to **understand and implement the core components** of a retrieval-augmented generation (RAG) workflow — vector indexing, semantic retrieval, and LLM-based summarization — and to **strengthen these concepts through hands-on implementation**.
 
-- Natural language → structured query parsing (via regex)
+In modern network operations, AI-driven automation is becoming essential:  
+logs are unstructured, high-frequency, and difficult to interpret manually.  
+A RAG-based approach helps by connecting **relevant past incidents** to **current alerts**, providing faster insight and early fault detection.
 
-- Basic RAG-style logic with Gemini for context-aware answers
-
-- API key usage & secure .env config
-
-- Live integration between Google Sheets and pandas
-
-- Lightweight UI with Streamlit
-
-🎯 Just a personal experiment — not commercial — to show how small AI workflows can be built around real data and real questions.
+The system here is intentionally lightweight — its goal is to show *how the pieces fit together*, not to be a full-scale product.
 
 ---
 
-## 🖼 Demo
+## 2. What It Does and Why It Matters
 
-![Demo GIF](demo.gif)
+The app performs a simplified version of network automation and reasoning:
+
+1. **Watches** a directory for new log files  
+2. **Indexes** log messages using FAISS for semantic retrieval  
+3. **Retrieves** relevant entries for a given query  
+4. **Summarizes** likely root causes through an LLM (Gemini 2.5 Flash)  
+5. **Displays** logs and evaluation metrics via Streamlit
+
+Each step mirrors real-world automation logic:  
+- monitoring → **data awareness**,  
+- retrieval → **information grounding**,  
+- summarization → **explainable reasoning**.  
+
+Together, they form a reproducible workflow where an engineer can query complex logs in plain English and instantly see context-aware results.
 
 ---
 
-## ⚙️ How to Run
+## 3. Architecture Overview
 
-1. Clone the repo:
-   ```bash
-   git clone https://github.com/your-username/mikro-rag.git
-   cd mikro-rag
+```
+📦 mikro-rag/
+├── app.py                # Streamlit UI and pipeline integration
+├── utils/
+│   ├── retrieval.py      # FAISS index + semantic search logic
+│   ├── llm.py            # Gemini 2.5 Flash API wrapper
+│   └── __init__.py
+├── auto_update.py        # watches data/ folder and updates index
+├── evaluate.py           # evaluates retrieval metrics (precision@k, latency)
+├── data/
+│   ├── sample_logs.csv   # demo dataset
+│   └── eval_results.csv  # generated during evaluation
+├── requirements.txt
+└── README.md
+```
 
-2. Create a virtual environment:
+**Pipeline Flow**
+```mermaid
+graph TD
+    A[Network Logs CSV] --> B[FAISS Index Builder]
+    B --> C[Semantic Search]
+    C --> D[Gemini 2.5 Flash - Root Cause Reasoning]
+    D --> E[Streamlit Dashboard Output]
+```
 
-    ```bash
-    python -m venv venv
-    source venv/bin/activate  # on Windows: venv\Scripts\activate
+---
 
-3. Install requirements:
-    ```bash
-    pip install -r requirements.txt
+## 4. Example Queries
 
+You can use natural language queries such as:
 
-4. Add your .env file:
-    ```ini
-    GEMINI_API_KEY=your-key-here
+| Query | Purpose |
+|--------|----------|
+| `packet loss in node 1` | Finds similar log messages related to packet loss events. |
+| `cpu usage high` | Retrieves logs about CPU utilization spikes. |
+| `link down alert` | Lists network failure logs with similar context. |
+| `power issue node 5` | Identifies recurring power-related alerts. |
 
-5. Run the app:
-    ```bash
-    streamlit run main_app.py
+These examples simulate how a real engineer might use the tool to quickly correlate issues and hypothesize causes.
 
-    or
-    
-    python -m streamlit run main_app.py
+---
 
+## 5. Setup and Run
 
-## 📁 File Structure
-    ├── main_app.py
-    ├── utils/
-    │   ├── parsing.py
-    │   ├── filtering.py
-    │   └── llm.py
-    ├── .env
-    ├── requirements.txt
-    ├── README.md
-    └── demo.gif  
+**Local Setup (Windows / macOS / Linux)**
+```bash
+git clone https://github.com/asmarufoglu/mikro-rag.git
+cd mikro-rag
+python -m venv venv
+# Windows:
+venv\Scripts\activate
+# macOS/Linux:
+source venv/bin/activate
+pip install -r requirements.txt
+streamlit run app.py
+```
 
-## 🙋 Why This Project?
-This is a personal learning exercise, not a production-level app. I wanted to better understand how to:
-- connect LLMs to structured data
-- build prompt-response pipelines
-- create something small but functional to show in interviews
+**Environment Configuration**
+```ini
+GOOGLE_API_KEY=your-key-here
+```
 
-
-
-# Thanks for checking it out! 🌱 
-Got suggestions or feedback? I'm all ears. Feel free to fork or build on this if it inspires you. 
+**Optional: Docker Run**
+```bash
+docker build -t network-rag .
+docker run -p 8501:8501 network-rag
+```
