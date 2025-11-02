@@ -1,35 +1,31 @@
 # Python
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
-*.pyd
-*.so
-*.egg
-*.egg-info/
-dist/
-build/
 
-# Virtual environment
+# Virtual env
 venv/
-env/
-.venv/
-.env/
+.env
+*.env
 
-# VSCode
+# Data / Model outputs
+data/faiss_index.bin
+data/*.pkl
+*.log
+*.csv
+data/*.csv
+data/*.bin
+
+# IDE
 .vscode/
+.idea/
 
-# Mac / Linux / Windows
+# OS
 .DS_Store
 Thumbs.db
 
-# Jupyter/IPython
-.ipynb_checkpoints/
+# Demo / Cache
+assets/
 
-# Streamlit cache
-.streamlit/
+*.bin
 
-# Log files
-*.log
-
-# dotenv secrets
-.env
